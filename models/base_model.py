@@ -2,6 +2,7 @@
 """Base class model"""
 from datetime import datetime
 from uuid import uuid4
+from __init__ import storage
 
 
 class BaseModel:
@@ -24,6 +25,7 @@ class BaseModel:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """print representation"""
@@ -40,3 +42,7 @@ class BaseModel:
         dict_cp['updated_at'] = self.updated_at.isoformat()
         dict_cp['__class__'] = self.__class__.__name__
         return dict_cp
+    def save(self):
+        """Save to JSON file"""
+        self.updated_at = datetime.now()
+        storage.new(self)
