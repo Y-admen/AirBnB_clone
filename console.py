@@ -1,11 +1,35 @@
 #!/usr/bin/python3
 import cmd
+from models.base_model import BaseModel
 
 class HBNBCommand(cmd.Cmd):
     """Command line interface class"""
     
     prompt = "(hbnb) "
+    existed_classes = ["BaseModel", "FileStorage"]
 
+    def do_create(self, arg):
+        if arg:
+            if arg in  self.existed_classes:
+                new = BaseModel(arg)
+                new.save()
+                print(new.id)
+            else:
+                print("** class doesn't exist **")
+        else:
+            print("** class name missing **")
+
+    def  do_show(self, arg):
+        if arg:
+            if arg in  self.existed_classes:
+                self.__str__
+        else:
+            print("** class name missing **")
+    
+        
+        
+    
+    
     def do_eof(self, arg):
         """command handeler:Handles the EOF condition."""
         return True
