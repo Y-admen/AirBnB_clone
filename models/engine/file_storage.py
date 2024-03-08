@@ -40,4 +40,4 @@ class FileStorage:
                 if read:
                     self.__objects = json.loads(read)
         else:
-            self.save()
+            pass
