@@ -36,8 +36,10 @@ class FileStorage:
         """Reloads objects dictionary from file"""
         if os.path.isfile(self.__file_path):
             with open(f"{self.__file_path}", "r") as file:
-                read =  file.read()
-                if read:
-                    self.__objects = json.loads(read)
+                read_str =  file.read()
+                if read_str:
+                    for cls, obj in json.loads(read_str).items():
+                        if cls == "BaseModel":
+                            self.__objects[cls] = base_model.BaseModel(**obj)
         else:
             pass
