@@ -5,6 +5,7 @@ Module console
 import cmd
 from models.base_model import BaseModel
 from models.__init__ import storage
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,7 +14,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) " if sys.stdin.isatty() else "(hbnb) \n"
     existed_models = {"BaseModel": BaseModel, }
 
-    def do_create(self, arg):
+    def do_create(self, model):
         """
         Creates an instance
         """
@@ -71,12 +72,19 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints representation of all instances
         """
+        str_list_obj = []
         if model:
             if model in self.existed_models:
-                for key in storage.__objects.items:
-                    print(str())
+                for key,value in storage.all.items():
+                    str_list_obj.append(str(value))
+                    print(str_list_obj)
+            else:
+                print ("** class doesn't exist **")
         else:
             print(storage.all())
+
+    def do_update(self, model):
+
 
     def do_EOF(self, arg):
         """
