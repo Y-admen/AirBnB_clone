@@ -2,7 +2,7 @@
 """Defines a FileStorage class"""
 import json
 import os
-from models import base_model.BaseModel
+from models import base_model
 
 
 class FileStorage:
@@ -27,16 +27,15 @@ class FileStorage:
             if isinstance(obj, BaseModel):
                 str_objects[key] = obj.to_dict()
             else:
-                str_objects[key] = obj 
+                str_objects[key] = obj
         with open(self.__file_path, 'w') as f:
             json.dump(str_objects, f)
-
 
     def reload(self):
         """Reloads objects dictionary from file"""
         if os.path.isfile(self.__file_path):
             with open(f"{self.__file_path}", "r") as file:
-                read_str =  file.read()
+                read_str = file.read()
                 if read_str:
                     for cls, obj in json.loads(read_str).items():
                         if cls == "BaseModel":
