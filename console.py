@@ -2,31 +2,37 @@
 import cmd
 from models.base_model import BaseModel
 from models.__init__ import storage
+
+
 class HBNBCommand(cmd.Cmd):
     """Command line interface class"""
     
-    prompt = "(hbnb) "
-    existed_classes = ["BaseModel", "FileStorage"]
+    prompt = "(hbnb) " if sys.stdin.isatty() else "(hbnb) \n"
+    existed_models = {
+            "BaseModel": BaseModel,
+            }
 
     
     def do_create(self, arg):
-        if arg:
-            if arg in  self.existed_classes:
-                new = BaseModel(arg)
-                new.save()
-                print(new.id)
+        if model:
+            if model in  self.existed_models:
+                new_model = self.existed_models[model]()
+                new_model.save()
+                print(new_model.id)
             else:
                 print("** class doesn't exist **")
         else:
             print("** class name missing **")
+            return
 
     def  do_show(self, arg):
+        """Prints representation of instance"""
         get_id = arg.split()[1]
         instance = storage.all()
-        get_class = arg.split()[0]
+        model = arg.split()[0]
         
         if arg:
-            if get_class in  self.existed_classes:
+            if model in  self.existed_models:
                 if get_id:
                     print(instance)
                 else:
@@ -35,17 +41,22 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
         else:
             print("** class name missing **")
+
     def do_destroy(self, arg):
+        """
+        Deletes an instance
+        """
         get_id = arg.split()[1]
-        get_class = arg.split()[0]
+        model = arg.split()[0]
         
         if arg:
-            if get_class in  self.existed_classes:
+            if model in  self.existed_models:
                 if get_id:
                     storage.reload()
-                    if storage.__objects[get_class] == get_id:
-                        del  storage.__objects[get_class]
-                        storage.save
+                    if storage.__objects[model] == get_id:
+                        del  storage.__objects[model]
+                        storage.save()
+                        return
                 else:
                    print ("** instance id missing **") 
             else:
@@ -53,9 +64,12 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
         
-    def do_all(self,arg):
-        if arg:
-            if arg in  self.existed_classes:
+    def do_all(self, model):
+        """
+        Prints representation of all instances
+        """
+        if model:
+            if model in  self.existed_models:
                 for key in storage.__objects.items:
                     print(str())
             
@@ -64,8 +78,10 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all())
     
         
-    def do_eof(self, arg):
-        """command handeler:Handles the EOF condition."""
+    def do_EOF(self, arg):
+        """
+        Handles the EOF condition.
+        """
         return True
 
     def do_quit(self, arg):
@@ -77,11 +93,14 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_help(self, arg):
-        """""Shows help for a command"""""
+        """
+        Shows help for a command
+        """
         command_help = {
         "quit": "Quit: Exit the program normally.",
         "EOF": "Exit the program with Ctrl+D.",
-        "help": "Show help for available commands."}
+        "help": "Show help for available commands."
+        }
         if arg:
             if arg in  command_help:
                 print(command_help[arg])
