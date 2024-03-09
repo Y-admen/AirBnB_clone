@@ -4,8 +4,9 @@ Module console
 """
 import cmd
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 import sys
+# from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -31,20 +32,23 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Prints representation of instance"""
-        get_id = arg.split()[1]
-        instance = storage.all()
-        model = arg.split()[0]
-
-        if arg:
-            if model in self.existed_models:
-                if get_id:
-                    print(instance)
-                else:
-                    print("** instance id missing **")
-            else:
-                print("** class doesn't exist **")
-        else:
+        if len(arg) < 1 :
             print("** class name missing **")
+            return
+        model, obj_id = arg.split()
+        instance = storage.all()
+
+        if model in self.existed_models:
+            if obj_id:
+                model_id = f"{model}.{obj_id}"
+                for key, obj_value in instance.items():
+                    if model_id == key:
+                        print(obj_value)
+                        return
+            else:
+                print("** instance id missing **")
+        else:
+            print("** class doesn't exist **")
 
     def do_destroy(self, arg):
         """
@@ -72,12 +76,13 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints representation of all instances
         """
-        str_list_obj = []
+        obj_list = []
         if model:
             if model in self.existed_models:
-                for key, value in storage.all.items():
-                    str_list_obj.append(str(value))
-                    print(str_list_obj)
+                for obj_val in storage.all().values():
+                    if obj_val.to_dict()["__class__"] == model:
+                        obj_list.append(obj_val.__str__())
+                print(obj_list)
             else:
                 print("** class doesn't exist **")
         else:
@@ -123,6 +128,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Handles the EOF condition.
         """
+        print()
         return True
 
     def do_quit(self, arg):

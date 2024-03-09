@@ -24,7 +24,7 @@ class FileStorage:
         """Saves objects dictionary to file"""
         str_objects = {}
         for key, obj in self.__objects.items():
-            if isinstance(obj, BaseModel):
+            if isinstance(obj, base_model.BaseModel):
                 str_objects[key] = obj.to_dict()
             else:
                 str_objects[key] = obj
@@ -39,6 +39,6 @@ class FileStorage:
                 if read_str:
                     for cls, obj in json.loads(read_str).items():
                         if cls == "BaseModel":
-                            self.__objects[cls] = BaseModel(**obj)
+                            self.__objects[cls] = base_model.BaseModel(**obj)
         else:
             pass
