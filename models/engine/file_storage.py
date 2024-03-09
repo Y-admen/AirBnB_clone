@@ -2,7 +2,7 @@
 """Defines a FileStorage class"""
 import json
 import os
-from models.base_model import BaseModel
+from models import base_model.BaseModel
 
 
 class FileStorage:
