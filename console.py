@@ -84,6 +84,25 @@ class HBNBCommand(cmd.Cmd):
             print(storage.all())
 
     def do_update(self, model):
+        """
+        Handles the `update` command to update a
+        specific attribute of an instance.
+        """
+        arguments = model.split()
+        if len(arguments) == 4 :
+            class_name, instance_id, attr_name, value_str = arguments[:4]
+            if class_name:
+                if class_name in self.existed_models:
+                    retrive = storage.reload()
+                    storage.save()
+                else:print ("** class doesn't exist **")
+                if not instance_id:
+                    print("** instance id missing **")
+                if not value_str:
+                    print("** value missing **")
+            else:
+                print("** class name missing **")
+        
 
 
     def do_EOF(self, arg):
