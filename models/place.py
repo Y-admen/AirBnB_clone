@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 """Place Model that inherits from BaseModel"""
 
-from models.base_model import BaseModel
+from .base_model import BaseModel
+
 
 class Place(BaseModel):
     """
     Represents a place.
 
     Attributes:
-        city_id (str): The City id 
+        city_id (str): The City id
         user_id (str): The User id of the owner
         name (str): The name of the place
         description (str): The description of the place

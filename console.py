@@ -26,7 +26,7 @@ class HBNBCommand(cmd.Cmd):
         # "City": City,
         # "Amenity": Amenity,
         # "Place": Place,
-        # "Review": Review
+        # "Review": Review,
         }
 
     def do_create(self, model):
@@ -161,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
         """Quits the program."""
         return True
 
-    def emptyline(self, arg):
+    def emptyline(self):
         """Ignores empty commands"""
         pass
 
