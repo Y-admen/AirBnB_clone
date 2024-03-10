@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines a FileStorage class"""
 import json
-import os
+import os 
 from models.base_model import BaseModel
 
 class FileStorage:
@@ -27,17 +27,17 @@ class FileStorage:
         str_object = {}
         for key, obj in self.__objects.items():
             str_object[key] = obj.to_dict()
-        json_rpr = json.dumps(str_object)
+
         with open(self.__file_path, 'w', encoding="utf-8") as f:
-            f.write(json_rpr)
+            json_rpr = json.dumps(str_object, f)
 
     def reload(self):
         """Reloads objects dictionary from file"""
         if not os.path.exists(self.__file_path):
             return
         with open(self.__file_path, "r", encoding="utf-8") as file:
-            read_str = file.read()
-            if read_str:
-                for key, obj in json.loads(read_str).items():
+            data = json.load(file)
+            if data:
+                for key, obj in data.items():
                     if key.split('.')[0] == "BaseModel":
                         self.__objects[key] = BaseModel(**obj)

@@ -9,7 +9,8 @@ Attributes:
   - last_name (str): Last name of the user
 
 """
-from base_model import BaseModel
+from .base_model import BaseModel
+
 
 class User(BaseModel):
     """
@@ -19,8 +20,7 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
-  
+
     def __init__(self, *args, **kwargs):
         """ Initial user attributes"""
         super().__init__(*args, **kwargs)
-
