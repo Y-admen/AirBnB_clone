@@ -3,17 +3,31 @@
 Module console
 """
 import cmd
-from models.base_model import BaseModel
-from models import storage
 import sys
-# from models.user import User
+from models.base_model import BaseModel
+from models.user import User
+# from models.state import State
+# from models.city import City
+# from models.amenity import Amenity
+# from models.place import Place
+# from models.review import Review
+from models import storage
+
 
 
 class HBNBCommand(cmd.Cmd):
     """Command line interface class"""
 
     prompt = "(hbnb) " if sys.stdin.isatty() else "(hbnb) \n"
-    existed_models = {"BaseModel": BaseModel, }
+    existed_models = {
+        "BaseModel": BaseModel,
+        "User": User,
+        # "State": State,
+        # "City": City,
+        # "Amenity": Amenity,
+        # "Place": Place,
+        # "Review": Review
+        }
 
     def do_create(self, model):
         """
@@ -32,7 +46,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """Prints representation of instance"""
-        if len(arg) < 1 :
+        if len(arg) < 1:
             print("** class name missing **")
             return
         model, obj_id = arg.split()
@@ -54,23 +68,29 @@ class HBNBCommand(cmd.Cmd):
         """
         Deletes an instance
         """
+        args = arg.split()
+        if len(args) < 1:
+            print("** class name missing **")
+            return
         get_id = arg.split()[1]
         model = arg.split()[0]
 
         if arg:
             if model in self.existed_models:
-                if get_id:
-                    storage.reload()
-                    if storage.__objects[model] == get_id:
-                        del storage.__objects[model]
+                if not get_id:
+                    print("** instance id missing **")
+                    return
+                model_id = "{}.{}".format(model, get_id)
+                for obj_key in storage.all().keys():
+                    if model_id == obj_key:
+                        del storage.all()[obj_key]
                         storage.save()
                         return
-                else:
-                    print("** instance id missing **")
             else:
                 print("** class doesn't exist **")
         else:
             print("** class name missing **")
+
 
     def do_all(self, model):
         """
@@ -80,28 +100,32 @@ class HBNBCommand(cmd.Cmd):
         if model:
             if model in self.existed_models:
                 for obj_val in storage.all().values():
-                    if obj_val.to_dict()["__class__"] == model:
+                    if obj_val.__class__.__name__ == model:
                         obj_list.append(obj_val.__str__())
                 print(obj_list)
             else:
                 print("** class doesn't exist **")
         else:
-            print(storage.all())
+            for obj_val in storage.all().values():
+                obj_list.append(obj_val.__str__())
+            print(obj_list)
+
+
 
     def do_update(self, model):
         """
         Handles the `update` command to update a
         specific attribute of an instance.
         """
-        arguments = model.split()
+        args = model.split()
 
-        if len(arguments) < 1:
+        if len(args) < 1:
             print("** class name missing **")
             return
 
-        if len(arguments) == 4:
+        if len(args) == 4:
 
-            model_name, instance_id, attr_name, attr_val = arguments[:4]
+            model_name, instance_id, attr_name, attr_val = args[:4]
 
             if model_name in self.existed_models:
                 if not instance_id:
@@ -116,13 +140,15 @@ class HBNBCommand(cmd.Cmd):
                         return
                     if not attr_val:
                         print("** value missing **")
-                    if attr_val.isnumeric():
+                    if isinstance(attr_val, str) and attr_val.isnumeric():
                         attr_val = int(attr_val)
                     if instance_id == obj_val.id:
                         setattr(obj_val, attr_name, attr_val)
                         obj_val.save()
             else:
                 print("** class doesn't exist **")
+
+
 
     def do_EOF(self, arg):
         """
@@ -135,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
         """Quits the program."""
         return True
 
-    def do_empty(self, arg):
+    def emptyline(self, arg):
         """Ignores empty commands"""
         pass
 
