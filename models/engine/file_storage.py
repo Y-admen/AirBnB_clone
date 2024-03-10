@@ -29,7 +29,7 @@ class FileStorage:
             str_object[key] = obj.to_dict()
 
         with open(self.__file_path, 'w', encoding="utf-8") as f:
-            json_rpr = json.dumps(str_object, f)
+            json.dump(str_object, f)
 
     def reload(self):
         """Reloads objects dictionary from file"""
