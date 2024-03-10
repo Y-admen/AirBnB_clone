@@ -8,6 +8,10 @@ class FileStorage:
     """File storage class"""
     __file_path = "file.json"
     __objects = {}
+    
+    def __init__(self):
+        """initialize"""
+        pass
 
     def all(self):
         """Returns objects dictionary"""
@@ -15,23 +19,23 @@ class FileStorage:
 
     def new(self, obj):
         """Adds a new object to the __objects dictionary"""
-        key = f"{obj.__class__.__name__}.{obj.id}"
+        key = f"{obj.to_dict()['__class__']}.{obj.id}"
         self.__objects[key] = obj
 
     def save(self):
         """Saves objects dictionary to file"""
-        str_objects = {}
+        str_object = {}
         for key, obj in self.__objects.items():
-            if isinstance(obj, BaseModel):
-                str_objects[key] = obj.to_dict()
-        with open(self.__file_path, 'w') as f:
-            json.dump(str_objects, f)
+            str_object[key] = obj.to_dict()
+        json_rpr = json.dumps(str_object)
+        with open(self.__file_path, 'w', encoding="utf-8") as f:
+            f.write(json_rpr)
 
     def reload(self):
         """Reloads objects dictionary from file"""
-        if not os.path.isfile(self.__file_path):
+        if not os.path.exists(self.__file_path):
             return
-        with open(self.__file_path, "r") as file:
+        with open(self.__file_path, "r", encoding="utf-8") as file:
             read_str = file.read()
             if read_str:
                 for key, obj in json.loads(read_str).items():
