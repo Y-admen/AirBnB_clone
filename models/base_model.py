@@ -21,7 +21,7 @@ class BaseModel:
                 if key in ['created_at', 'updated_at']:
                     setattr(self, key, datetime.strptime(val, format))
                 else:
-                    setattr(self, key, val) 
+                    setattr(self, key, val)
 
         else:
             models.storage.new(self)
