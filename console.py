@@ -63,34 +63,30 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
-    def do_destroy(self, arg):
+    def do_destroy(self, *args):
         """
         Deletes an instance
         """
-        args = arg.split()
-        if len(args) < 1:
+        if len(args) < 2:
             print("** class name missing **")
             return
-        model = arg.split()[0]
+        model = args[1]
         try:
-            get_id = arg.split()[1]
+            get_id = args[2]
         except IndexError:
-            raise IndexError("** instance id missing **")
-        if arg:
-            if model in self.existed_models:
-                if not get_id:
-                    print("** instance id missing **")
-                    return
-                model_id = "{}.{}".format(model, get_id)
-                for obj_key in storage.all().keys():
-                    if model_id == obj_key:
-                        del storage.all()[obj_key]
-                        storage.save()
-                        return
+            print("** instance id missing **")
+            return
+        if model in self.existed_models:
+            model_id = "{}.{}".format(model, get_id)
+            for obj_key in storage.all().keys():
+                if model_id == obj_key:
+                    del storage.all()[obj_key]
+                    storage.save()
             else:
-                print("** class doesn't exist **")
+                print("** no instance found **")
+            return
         else:
-            print("** class name missing **")
+            print("** class doesn't exist **")
 
     def do_all(self, model):
         """
