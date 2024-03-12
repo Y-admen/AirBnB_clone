@@ -172,7 +172,8 @@ class HBNBCommand(cmd.Cmd):
                 print(command_help[arg])
             else:
                 print(f"No command available for '{arg}'.")
-    
+
+
 def split_line(line_string):
     """Split line string into words in array
     """
@@ -191,6 +192,7 @@ def split_line(line_string):
     if arg:
         output.append(arg)
     return output
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
