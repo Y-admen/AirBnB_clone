@@ -63,16 +63,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
-    def do_destroy(self, *args):
+    def do_destroy(self, arg):
         """
         Deletes an instance
         """
-        if len(args) < 2:
+        args = arg.split()
+        if len(args) < 1:
             print("** class name missing **")
             return
-        model = args[1]
+        model = args[0]
         try:
-            get_id = args[2]
+            get_id = args[1]
         except IndexError:
             print("** instance id missing **")
             return
@@ -106,13 +107,12 @@ class HBNBCommand(cmd.Cmd):
                 obj_list.append(obj_val.__str__())
             print(obj_list)
 
-    def do_update(self, model):
+    def do_update(self, arg):
         """
         Handles the `update` command to update a
         specific attribute of an instance.
         """
-        args = model.split()
-
+        args = arg.split()
         if len(args) < 1:
             print("** class name missing **")
             return
