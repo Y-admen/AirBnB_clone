@@ -14,7 +14,6 @@ from models.review import Review
 from models import storage
 
 
-
 class HBNBCommand(cmd.Cmd):
     """Command line interface class"""
 
