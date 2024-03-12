@@ -71,9 +71,11 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 1:
             print("** class name missing **")
             return
-        get_id = arg.split()[1]
         model = arg.split()[0]
-
+        try:
+            get_id = arg.split()[1]
+        except IndexError:
+            raise IndexError("** instance id missing **")
         if arg:
             if model in self.existed_models:
                 if not get_id:
