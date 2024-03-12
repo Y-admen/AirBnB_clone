@@ -90,7 +90,6 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class name missing **")
 
-
     def do_all(self, model):
         """
         Prints representation of all instances
@@ -108,8 +107,6 @@ class HBNBCommand(cmd.Cmd):
             for obj_val in storage.all().values():
                 obj_list.append(obj_val.__str__())
             print(obj_list)
-
-
 
     def do_update(self, model):
         """
@@ -147,8 +144,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** class doesn't exist **")
 
-
-
     def do_EOF(self, arg):
         """
         Handles the EOF condition.
@@ -162,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Ignores empty commands"""
-        pass
+        return True
 
     def do_help(self, arg):
         """
