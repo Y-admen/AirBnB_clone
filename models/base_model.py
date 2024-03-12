@@ -8,23 +8,22 @@ import models
 class BaseModel:
     """Base class for models"""
     def __init__(self, *args, **kwargs):
+        """initialize"""
+        self.id = str(uuid4())
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+
         if kwargs:
-            for key in kwargs:
+            for key, val in kwargs.items():
                 format = "%Y-%m-%dT%H:%M:%S.%f"
                 if key == '__class__':
                     continue
-                if key == 'created_at':
-                    conv1 = kwargs['created_at']
-                    self.created_at = datetime.strptime(conv1, format)
-                if key == 'updated_at':
-                    conv2 = kwargs['updated_at']
-                    self.updated_at = datetime.strptime(conv2, format)
-                setattr(self, key, kwargs[key])
+                if key in ['created_at', 'updated_at']:
+                    setattr(self, key, datetime.strptime(val, format))
+                else:
+                    setattr(self, key, val) 
 
         else:
-            self.id = str(uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
             models.storage.new(self)
 
     def __str__(self):
