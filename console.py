@@ -112,35 +112,36 @@ class HBNBCommand(cmd.Cmd):
         Handles the `update` command to update a
         specific attribute of an instance.
         """
-        args = arg.split()
+        args = split_line(arg)
         if len(args) < 1:
             print("** class name missing **")
             return
 
         if len(args) == 4:
-
             model_name, instance_id, attr_name, attr_val = args[:4]
 
-            if model_name in self.existed_models:
-                if not instance_id:
-                    print("** instance id missing **")
-                    return
-                model_id = f"{model_name}.{instance_id}"
-                if model_id not in storage.all():
-                    print("** no instance found **")
-                for obj_val in storage.all().values():
-                    if not attr_name:
-                        print("** attribute name missing **")
-                        return
-                    if not attr_val:
-                        print("** value missing **")
-                    if isinstance(attr_val, str) and attr_val.isnumeric():
-                        attr_val = int(attr_val)
-                    if instance_id == obj_val.id:
-                        setattr(obj_val, attr_name, attr_val)
-                        obj_val.save()
-            else:
+            if model_name not in self.existed_models:
                 print("** class doesn't exist **")
+                return
+            if not instance_id:
+                print("** instance id missing **")
+                return
+            model_id = f"{model_name}.{instance_id}"
+            if model_id not in storage.all():
+                print("** no instance found **")
+                return
+            if not attr_name:
+                print("** attribute name missing **")
+                return
+            if not attr_val:
+                print("** value missing **")
+                return
+            for obj_val in storage.all().values():
+                if isinstance(attr_val, str) and attr_val.isnumeric():
+                    attr_val = int(attr_val)
+                if instance_id == obj_val.id:
+                    setattr(obj_val, attr_name, attr_val)
+                    obj_val.save()
 
     def do_EOF(self, arg):
         """
@@ -171,7 +172,25 @@ class HBNBCommand(cmd.Cmd):
                 print(command_help[arg])
             else:
                 print(f"No command available for '{arg}'.")
-
+    
+def split_line(line_string):
+    """Split line string into words in array
+    """
+    output = []
+    has_quote = False
+    arg = ''
+    for char in line_string:
+        if char == ' ' and not has_quote:
+            if arg:
+                output.append(arg)
+                arg = ''
+        elif char == '"':
+            has_quote = not has_quote
+        else:
+            arg += char
+    if arg:
+        output.append(arg)
+    return output
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
