@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Ignores empty commands"""
-        return True
+        pass
 
     def do_help(self, arg):
         """

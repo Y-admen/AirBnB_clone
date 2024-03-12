@@ -3,6 +3,12 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -40,5 +46,17 @@ class FileStorage:
             data = json.load(file)
             if data:
                 for key, obj in data.items():
-                    if key.split('.')[0] == "BaseModel":
+                    if "BaseModel" in key:
                         self.__objects[key] = BaseModel(**obj)
+                    if "User" in key:
+                        self.__objects[key] = User(**obj)
+                    if "State" in key:
+                        self.__objects[key] = State(**obj)
+                    if "City" in key:
+                        self.__objects[key] = City(**obj)
+                    if "Amenity" in key:
+                        self.__objects[key] = Amenity(**obj)
+                    if "Place" in key:
+                        self.__objects[key] = Place(**obj)
+                    if "Review" in key:
+                        self.__objects[key] = Review(**obj)
