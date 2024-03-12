@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 """Defines a FileStorage class"""
 import json
-import os 
+import os
 from models.base_model import BaseModel
+
 
 class FileStorage:
     """File storage class"""
     __file_path = "file.json"
     __objects = {}
-    
+
     def __init__(self):
         """initialize"""
         pass
