@@ -1,0 +1,93 @@
+section.filters {
+	align-items: center;
+	display: flex;
+	background-color: white;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	height: 70px;
+	width: 100%;
+	position: relative;
+  }
+  
+  div.locations,
+  div.amenities {
+	padding: 0 30px;
+	height: 100%;
+	width: 25%;
+  }
+  
+  div.locations {
+	border-right: 1px solid #dddddd;
+  }
+  
+  div.locations:hover .popover,
+  div.amenities:hover .popover {
+	display: block;
+  }
+  
+  h2 {
+	font-size: 16px;
+  }
+  
+  h3.filter-title {
+	font-weight: 600;
+	margin: 10px 0px 0px 0px;
+  }
+  
+  h4.filter-description {
+	font-size: 14px;
+	font-weight: 400;
+	margin: 0;
+  }
+  
+  .btn {
+	color: #ffffff;
+	background-color: #ff5a5f;
+	border: 0;
+	border-radius: 4px;
+	font-size: 18px;
+	height: 48px;
+	width: 20%;
+  }
+  
+  .btn-filters {
+	margin-left: auto;
+	margin-right: 30px;
+  }
+  
+  .btn-filters:hover {
+	opacity: 90%;
+  }
+  
+  ul {
+	list-style: none;
+  }
+  
+  li {
+	line-height: 25px;
+  }
+  
+  li.popover-item {
+	margin-bottom: 20px;
+  }
+  
+  ul.popover {
+	background-color: #fafafa;
+	border: 1px solid #dddddd;
+	border-radius: 4px;
+	display: none;
+	margin: 25px -30px 0px -30px;
+	padding: 20px 30px;
+  }
+  
+  ul.popover-aligned {
+	padding-left: 50px;
+  }
+  
+  ul.popover-items {
+	padding-left: 15px;
+  }
+  
+  h2.popover-state {
+	margin: 0px;
+  }
